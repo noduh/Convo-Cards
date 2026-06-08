@@ -1,0 +1,6 @@
+*.docx
+.~lock*
+*.time
+*.pdf
+.vscode/
+*.drawio
