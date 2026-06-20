@@ -19,7 +19,9 @@
 # Useful Websites
 Here are some websites that were useful during the development of this project:
 
-- 
+- [Dart *Learn*](https://dart.dev/learn/)
+- [Flutter *Docs*](https://docs.flutter.dev)
+- [Google Gemini](https://gemini.google.com)
 
 # Future Work
 
