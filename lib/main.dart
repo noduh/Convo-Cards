@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   runApp(MainApp());
 }
 
 class MainApp extends StatefulWidget {
+  const MainApp({super.key});
+
   @override
   _MainAppState createState() => _MainAppState();
 }
@@ -18,27 +21,33 @@ class _MainAppState extends State<MainApp> {
       home: Scaffold(
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text("Current Count: $_counter"),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _counter--;
-                      });
-                    },
-                    child: Text("Go Down"),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _counter--;
+                        });
+                      },
+                      child: Text("Pass"),
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _counter++;
-                      });
-                    },
-                    child: Text("Go Up"),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _counter++;
+                        });
+                      },
+                      child: Text("Answered"),
+                    ),
                   ),
                 ],
               ),
@@ -47,5 +56,43 @@ class _MainAppState extends State<MainApp> {
         ),
       ),
     );
+  }
+}
+
+class Question {
+  bool _answered = false;
+  final String _questionText;
+  String? _answerText;
+
+  bool get isAnswered => _answered;
+  String get questionText => _questionText;
+  String? get answerText => _answerText;
+
+  Question(this._questionText);
+  void answer(String answer) {
+    if (!_answered) {
+      _answerText = answer;
+      _answered = true;
+    }
+  }
+}
+
+class QuestionsList {
+  var questions = <Question>{};
+
+  QuestionsList(Set<Question>? questions) {
+    if (questions != null) {
+      this.questions.addAll(questions);
+    }
+  }
+
+  Question getRandomQuestion() {
+    final random = Random();
+    Question randomQuestion;
+    do {
+      randomQuestion = questions.toList()[random.nextInt(questions.length)];
+    } while (randomQuestion.isAnswered);
+
+    return randomQuestion;
   }
 }
