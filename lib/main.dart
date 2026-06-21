@@ -29,7 +29,9 @@ class _MainAppState extends State<MainApp> {
     Question("What is your absolute favorite way to spend a rainy day?"),
   });
 
-  var _counter = 0;
+  Question currentQuestion = Question(
+    "Are you ready to start?\n(The button you press for this question doesn't matter lol.)",
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +41,44 @@ class _MainAppState extends State<MainApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text("Current Count: $_counter"),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.lightBlue,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                width: MediaQuery.sizeOf(context).width * 0.8,
+                child: Padding(
+                  padding: EdgeInsetsGeometry.all(10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Question:",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        currentQuestion.questionText,
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     padding: EdgeInsets.all(20),
                     child: ElevatedButton(
+                      // pass button
                       onPressed: () {
                         setState(() {
-                          _counter--;
+                          currentQuestion = questionsList.getRandomQuestion();
                         });
                       },
                       child: Text("Pass"),
@@ -57,12 +87,14 @@ class _MainAppState extends State<MainApp> {
                   Container(
                     padding: EdgeInsets.all(20),
                     child: ElevatedButton(
+                      // answer button
                       onPressed: () {
                         setState(() {
-                          _counter++;
+                          currentQuestion.answer(null);
+                          currentQuestion = questionsList.getRandomQuestion();
                         });
                       },
-                      child: Text("Answered"),
+                      child: Text("Answer"),
                     ),
                   ),
                 ],
@@ -85,7 +117,7 @@ class Question {
   String? get answerText => _answerText;
 
   Question(this._questionText);
-  void answer(String answer) {
+  void answer(String? answer) {
     if (!_answered) {
       _answerText = answer;
       _answered = true;
